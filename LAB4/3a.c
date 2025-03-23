@@ -1,0 +1,66 @@
+#include<stdio.h>
+
+#define MAX 10
+
+int graph[MAX][MAX];
+int visited[MAX];
+int queue[MAX];
+int front = 0,rear = 0;
+int vertices;
+
+void bfs(int start){
+    queue[rear++] = start;
+    visited[start] = 1;
+
+    while(front<rear){
+        int curr = queue[rear++];
+        printf("%d",curr);
+        for(int i=0;i<vertices;i++){
+            if(!visited[i] && graph[curr][i]==1){
+                queue[rear++] = i;
+                visited[i] =1;
+            }
+        }
+    }
+}
+
+int main() {
+    int edges, u, v;
+    
+    printf("Enter the number of vertices: ");
+    scanf("%d", &vertices);
+    
+    printf("Enter the number of edges: ");
+    scanf("%d", &edges);
+
+    
+    for (int i = 0; i < vertices; i++) {
+        for (int j = 0; j < vertices; j++) {
+            graph[i][j] = 0;
+        }
+        visited[i] = 0;
+    }
+
+    printf("Enter the edges (u v) format:\n");
+    for (int i = 0; i < edges; i++) {
+        scanf("%d %d", &u, &v);
+        graph[u][v] = 1;
+        graph[v][u] = 1;  
+    }
+
+    printf("Enter starting vertex: ");
+    int start;
+    scanf("%d", &start);
+
+    printf("BFS: ");
+    bfs(start);
+    printf("\n");
+
+    for (int i = 0; i < vertices; i++) {
+        if (!visited[i]) {
+            bfs(i);
+        }
+    }
+
+    return 0;
+}
